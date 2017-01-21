@@ -1,0 +1,5 @@
+Changelog for modNodejs.
+
+1.0.0-beta
+==============
+- первый релиз
