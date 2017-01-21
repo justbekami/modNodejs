@@ -24,4 +24,4 @@ node_modules/forever/bin/forever start modnodejs.js
 
 
 
-[Примеры и обсуждение на modx.pro](https://modx.pro/development/10998-modnodejs-integrate-nodejs-in-modx/#comment-74623)
+[Примеры и обсуждение на modx.pro](https://modx.pro/development/10998-modnodejs-integrate-nodejs-in-modx/)
