@@ -44,12 +44,8 @@ class modNodejs {
         }
 	}
 
-
-	// кастомизированный invokeEvent из minishop2
+	// кастомизированный invokeEvent
     public function invokeEvent($eventName, array $params = array(), $glue = '<br/>') {
-        if (isset($this->modx->event->returnedValues)) {
-            $this->modx->event->returnedValues = null;
-        }
         $response = $this->modx->invokeEvent($eventName, $params);
         if (is_array($response) && count($response) > 1) {
             foreach ($response as $k => $v) {
@@ -58,17 +54,13 @@ class modNodejs {
                 }
             }
         }
-        $message = is_array($response) ? implode($glue, $response) : trim((string)$response);
-        if (isset($this->modx->event->returnedValues) && is_array($this->modx->event->returnedValues)) {
-            $response = $this->modx->event->returnedValues;
-        }
+
+        $response = count($response) == 1 ? array_shift($response) : $response;
         return array(
-            'success' => empty($message),
-            'entry' => $params,
-			'data' => $response,
+            'success' => true,
+            'data' => $response,
         );
     }
-
 	// отправка запроса в nodejs
 	public function emit($action,  $data = null) {
 		if(!is_array($data)) return;

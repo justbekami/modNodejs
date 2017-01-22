@@ -3,7 +3,7 @@ switch($modx->event->name) {
 
 	// ответ на запросы из nodejs
 	case 'OnHandleRequest':
-		if($_REQUEST['nodejs'] != 1) return;
+	    if($_REQUEST['nodejs'] != 1) return;
 		$action = $_REQUEST['action'];
 		$data = $_REQUEST['data'];
 		$token = $_REQUEST['token'] == $modx->getOption('modnodejs_token');
@@ -21,11 +21,11 @@ switch($modx->event->name) {
 
 	// авторизация
 	case 'OnNodejsRequest':
-		if ($action != 'login' || !$PHPSESSID = $data['PHPSESSID']) return;
+	    if ($action != 'login' || !$PHPSESSID = $data['PHPSESSID']) return;
+
 		 // проверка существования сессии (пользователь \ гость)
         $session = $modx->getObject('modSession', $PHPSESSID);
         if (!$session) return;
-		$values = & $modx->event->returnedValues;
 
         // провека пользователя
         $profile = $modx->getObject('modUserProfile', array(
@@ -36,7 +36,7 @@ switch($modx->event->name) {
         // получение пользователя (профиль \ гость)
         if ($profile && $user = $profile->getOne('User')) {
             $modx->user = $user;
-            $values['data'] = array(
+            $response = array(
                 'id' => $modx->user->id,
                 'username' => $modx->user->username,
                 'fullname' => $profile->fullname,
@@ -46,12 +46,14 @@ switch($modx->event->name) {
                 'auth' => $modx->user->getSessionContexts(),
             );
         } else {
-            $values['data'] = array(
+            $response = array(
               'id' => 0,
               'username' => '(anonymous)',
             );
         }
-		break;
+
+        $modx->event->_output = $response;
+        break;
 
 	// подключение к сокетам на фротэeде\бэкенде
 	case 'OnLoadWebDocument':

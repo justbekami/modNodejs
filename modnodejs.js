@@ -1,10 +1,10 @@
-var io = require('socket.io').listen(9090);
+var io = require('socket.io').listen(9091);
 var request = require('request');
 var onlineUsers = {};
 var config = {
 	components: './modnodejs_components',
 	token: '<TOKEN>',
-	domain: 'localhost',
+	domain: 'http://localhost/',
 };
 
 // авторизация
@@ -23,26 +23,27 @@ io.use(function(socket, next){
 			PHPSESSID: PHPSESSID,
 			ctx: ctx,
 		}, function(response){
-			if (response.data) {
+			if (response.username) {
 				onlineUsers[ctx] = onlineUsers[ctx] || [];
-				if (response.data.id != 0) {
+				if (response.id != 0) {
+					var user_id = response.id;
 					// добавление список онлайн-пользователей
-					var isOnline = onlineUsers[ctx].findIndex(user => user.id === response.data.id);
+					var isOnline = onlineUsers[ctx].findIndex(user => user['id'] === user_id);
 					if (isOnline !== -1) {
 						onlineUsers[ctx][isOnline].socketid = socket.id;
 					} else {
-						response.data.socketid = socket.id;
-						onlineUsers[ctx].push(response.data);
+						response.socketid = socket.id;
+						onlineUsers[ctx].push(response);
 					}
 
 					// добавление в группы, по названиям из modx
-					if (response.data.groups.length > 0) {
-						for (var i=0; i < response.data.groups.length; i++) {
-							socket.join(response.data.groups[i]);
+					if (response.groups.length > 0) {
+						for (var i=0; i < response.groups.length; i++) {
+							socket.join(response.groups[i]);
 						}
 					}
 				}
-				socket.handshake.user = response.data;
+				socket.handshake.user = response;
 				socket.handshake.ctx = ctx;
 				next();
 			}
@@ -52,7 +53,6 @@ io.use(function(socket, next){
 
 // работа с эвентами при успешной авторизации + подключение компонентов
 io.on('connection', function(socket){
-
 	var ctx = socket.handshake.ctx;
 
 	// удаление пользователя из онлайн списка
@@ -65,7 +65,7 @@ io.on('connection', function(socket){
 
 	// подключение компонентов (всех .js файлов в папке config.components)
 	require('fs').readdirSync(config.components).forEach(function (file) {
-		module.exports = require(config.components + '/' + file)(socket, io, onlineUsers);
+		module.exports = require(config.components + '/' + file)(socket, io, onlineUsers, modx);
 	});
 
 });
