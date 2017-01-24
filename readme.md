@@ -23,5 +23,6 @@ node_modules/forever/bin/forever start modnodejs.js
 В системной настройке modnodejs_token указываем токен, который указали в modnodejs.js
 
 
+[EN](https://github.com/but1head/modNodejs/blob/master/readme.en.md)
 
 [Примеры и обсуждение на modx.pro](https://modx.pro/development/10998-modnodejs-integrate-nodejs-in-modx/)
