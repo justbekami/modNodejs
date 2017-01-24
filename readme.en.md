@@ -2,7 +2,7 @@
 Web server socket bundle based on node.js & socket.io and MODx
 Below is a sample installation of the bundle on modhost.pro
 
-### Settings Node.js
+### Installing Node.js
 
 Upload the folder modnodejs_components and modnodejs.js to s****/
 The file indicates the modnodejs.js token (create yourself)
