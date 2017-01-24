@@ -18,7 +18,7 @@ node_modules/forever/bin/forever start modnodejs.js
 If the console does not report errors - the server is running, and everything works fine
 
 ### Installing modNodejs in MODx
-Set component. 
+Install the component. 
 
 In System Setting modnodejs_token specify the token that is indicated in modnodejs.js
 
