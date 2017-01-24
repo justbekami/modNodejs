@@ -1,5 +1,5 @@
 # modNodejs - Integration of Node.js & socket.io with MODx
-Web server socket bundle based on node.js & socket.io and MODx
+Web server socket bundle based on node.js, socket.io and MODx.
 Below is a sample installation of the bundle on modhost.pro
 
 ### Installing Node.js
