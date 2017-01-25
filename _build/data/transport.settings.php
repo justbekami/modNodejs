@@ -12,16 +12,16 @@ $tmp = array(
     ),
 	 'host' => array(
         'xtype' => 'textfield',
-        'value' => 'localhost',
-        'area' => 'modnodejs_main',
-    ),
-	'port' => array(
-        'xtype' => 'textfield',
-        'value' => '9090',
+        'value' => 'http://' . $_SERVER['HTTP_HOST'] . ':9090',
         'area' => 'modnodejs_main',
     ),
 	'frontend_js' => array(
         'value' => 'web/default.js',
+        'xtype' => 'textfield',
+        'area' => 'modnodejs_frontend',
+    ),
+	'frontend_css' => array(
+        'value' => 'web/default.css',
         'xtype' => 'textfield',
         'area' => 'modnodejs_frontend',
     ),

@@ -1,2 +1,1 @@
-var socket = io((modNodejsConfig.host == 'localhost' ? document.location.origin : modNodejsConfig.host) + ':' + modNodejsConfig.port, {query: 'ctx=' + modNodejsConfig.ctx});
-
+var socket = io(modNodejsConfig.host, {query: 'ctx=' + modNodejsConfig.ctx});

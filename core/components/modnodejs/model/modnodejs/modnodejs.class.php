@@ -9,8 +9,7 @@ class modNodejs {
 
 		$this->config = array_merge(array(
 			'token' =>  $this->modx->getOption('modnodejs_token', $config, ''),
-			'host' => $this->modx->getOption('modnodejs_host', $config, 'localhost'),
-			'port' => $this->modx->getOption('modnodejs_port', $config, 9090),
+			'host' => $this->modx->getOption('modnodejs_host', $config, 'http://' . $_SERVER['HTTP_HOST'] . ':9090'),
 			'assetsUrl' => $this->modx->getOption('assets_url') . 'components/modnodejs/',
 		), $config);
 
@@ -25,7 +24,6 @@ class modNodejs {
             $config_js = array(
                 'ctx' => $ctx,
                 'host' => $this->config['host'],
-                'port' => $this->config['port'],
             );
             switch($ctx) {
 				case 'mgr':
@@ -38,6 +36,7 @@ class modNodejs {
 					$this->modx->regClientStartupScript('<script type="text/javascript">modNodejsConfig=' . json_encode($config_js) . ';</script>', true);
 					$this->modx->regClientScript($this->config['assetsUrl'] . 'socket.io.js');
 					$this->modx->regClientScript($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_frontend_js'));
+					$this->modx->regClientCss($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_frontend_css'));
 					break;
 			}
             $this->initialized[$ctx] = true;
@@ -61,25 +60,28 @@ class modNodejs {
             'data' => $response,
         );
     }
+
 	// отправка запроса в nodejs
-	public function emit($action,  $data = null) {
+	public function emit($action,  $data = null, $target = null) {
 		if(!is_array($data)) return;
 
-		$host = $this->config['host'] == 'localhost' ? $_SERVER['HTTP_HOST'] : $this->config['host'];
-	 	$port = $this->config['port'];
+	 	$target = parse_url($target ?: $this->config['host']);
 	 	$token = $this->config['token'];
-	 	$address = '/socket.io/?EIO=2';
-	 	$transport = 'websocket';
+ 		$host = $target['host'];
+ 		$port = $target['port'];
+ 		$scheme = $target['scheme'];
+ 		$path = $target['path'] ?: '/socket.io/';
+ 		$query = $target['query'] ? "?{$target['query']}" : "?EIO=2&transport=websocket";
 
-	 	$fd = fsockopen($host, $port, $errno, $errstr);
+ 		$fd = fsockopen($host, $port, $errno, $errstr);
         if (!$fd) return false;
         $key = $this->generateKey();
-        $out = "GET $address&transport=$transport HTTP/1.1\r\n";
-        $out.= "Host: http://$host:$port\r\n";
+        $out = "GET {$path}{$query} HTTP/1.1\r\n";
+        $out.= "Host: {$scheme}://{$host}:{$port}\r\n";
         $out.= "Upgrade: WebSocket\r\n";
         $out.= "Connection: Upgrade\r\n";
-        $out.= "Sec-WebSocket-Token: $token\r\n";
-        $out.= "Sec-WebSocket-Key: $key\r\n";
+        $out.= "Sec-WebSocket-Token: {$token}\r\n";
+        $out.= "Sec-WebSocket-Key: {$key}\r\n";
         $out.= "Sec-WebSocket-Version: 13\r\n";
         $out.= "Origin: *\r\n\r\n";
 

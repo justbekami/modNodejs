@@ -4,10 +4,10 @@
 define('PKG_NAME', 'modNodejs');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
-define('PKG_VERSION', '1.0.0');
-define('PKG_RELEASE', 'pl');
+define('PKG_VERSION', '1.0.3');
+define('PKG_RELEASE', 'beta');
 define('PKG_AUTO_INSTALL', true);
-//define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
+define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
 
 // define paths
 if (isset($_SERVER['MODX_BASE_PATH'])) {
@@ -46,8 +46,5 @@ define('BUILD_EVENT_UPDATE', true);
 define('BUILD_PLUGIN_STATIC', false);
 
 $BUILD_RESOLVERS = array(
-    //'tables',
-    //'chunks',
-    //'setup',
-    //'office',
+    'extension',
 );
