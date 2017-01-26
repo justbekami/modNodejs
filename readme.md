@@ -4,25 +4,19 @@
 
 ### Установка Node.js
 
-Переносим папку modnodejs_components и modnodejs.js в s****/
-В файле modnodejs.js указываем токен (придумываем сами)
-
-Выполняем в консоли команды:
-
 ```
-npm install socket.io
-npm install forever
-npm install request
-node_modules/forever/bin/forever start modnodejs.js
+npm i modnodejs-server
+node node_modules/modnodejs-server
 ```
+В node_modules/modnodejs-server/index.js указываем TOKEN и DOMAIN
 Если в консоли не возникло ошибок - сервер запущен и все прекрасно работает
 
 ### Установка modNodejs в MODx
-Устанавливаем компонент. 
+Устанавливаем компонент из [https://modstore.pro/packages/other/modnodejs](https://modstore.pro/packages/other/modnodejs) или http://yourdomain.com/modNodejs/_build/build.transport.php 
 
-В системной настройке modnodejs_token указываем токен, который указали в modnodejs.js
+В системной настройке modnodejs_token указываем TOKEN, который указали в node_modules/modnodejs-server/index.js и исправляем modnodejs_domain если он не правильно определился
 
 
-[EN](https://github.com/but1head/modNodejs/blob/master/readme.en.md)
+[English version here](https://github.com/but1head/modNodejs/blob/master/readme.en.md)
 
 [Примеры и обсуждение на modx.pro](https://modx.pro/development/10998-modnodejs-integrate-nodejs-in-modx/)
