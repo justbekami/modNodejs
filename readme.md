@@ -1,8 +1,8 @@
 # modNodejs - Интеграция Node.js & socket.io в MODx
-Готовая связка веб-сокет сервера на базе node.js & socket.io и MODx.
-Ниже приведен пример установка связки на modhost.pro
+Веб-сокет сервер на базе node.js & socket.io для MODx.
+Ниже приведен пример установки на [modhost.pro](https://modhost.pro/?msfrom=536a8eba0b3ff33051067eafe1ac6e6c)
 
-### Установка Node.js
+### Установка [Modnodejs-server](https://github.com/but1head/modnodejs-server)
 
 ```
 npm i modnodejs-server
@@ -28,8 +28,9 @@ node node_modules/modnodejs-server
 
 [English version here](https://github.com/but1head/modNodejs/blob/master/readme.en.md)
 
+
 ### Примеры
-[Уведомление о новом заказе (администраторам) в браузере](gist.github.com/but1head/d7997501b066513281067617e4a21c7c)
+[Уведомление о новом заказе (администраторам) в браузере](https://gist.github.com/but1head/d7997501b066513281067617e4a21c7c)
 
 
 [Обсуждение на modx.pro](https://modx.pro/development/10998-modnodejs-integrate-nodejs-in-modx/)
