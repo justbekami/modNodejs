@@ -43,7 +43,7 @@ class modNodejs {
         }
 	}
 
-	// кастомизированный invokeEvent
+	// custom invokeEvent
     public function invokeEvent($eventName, array $params = array(), $glue = '<br/>') {
         $response = $this->modx->invokeEvent($eventName, $params);
         if (is_array($response) && count($response) > 1) {
@@ -61,7 +61,7 @@ class modNodejs {
         );
     }
 
-	// отправка запроса в nodejs
+	// send to nodejs (you can send to another server, user 3rd param: https://site.com/nodejs/?myParam=1)
 	public function emit($action,  $data = null, $target = null) {
 		if(!is_array($data)) return;
 

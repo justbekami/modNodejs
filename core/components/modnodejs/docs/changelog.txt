@@ -1,5 +1,9 @@
 Changelog for modNodejs.
 
+1.0.4-beta
+=============
+- translated for english
+
 1.0.3-beta
 ==============
 - fix $modx->getService('modnodejs');

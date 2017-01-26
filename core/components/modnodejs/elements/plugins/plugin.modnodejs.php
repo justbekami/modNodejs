@@ -1,7 +1,7 @@
 <?php
 switch($modx->event->name) {
 
-	// ответ на запросы из nodejs
+	// retrieve request from nodejs
 	case 'OnHandleRequest':
 	    if($_REQUEST['nodejs'] != 1) return;
 		$action = $_REQUEST['action'];
@@ -13,27 +13,21 @@ switch($modx->event->name) {
 		exit($modx->toJSON($response));
 		break;
 
-	// уведомления о заказах
-	case 'msOnCreateOrder':
-		$modNodejs = $modx->getService('modnodejs', 'modNodejs', $modx->getOption('core_path') .  'components/modnodejs/model/modnodejs/');
-		$modNodejs->emit('msOnCreateOrder', $msOrder->toArray());
-		break;
-
-	// авторизация
+	// authorization
 	case 'OnNodejsRequest':
 	    if ($action != 'login' || !$PHPSESSID = $data['PHPSESSID']) return;
 
-		 // проверка существования сессии (пользователь \ гость)
+		 // check session
         $session = $modx->getObject('modSession', $PHPSESSID);
         if (!$session) return;
 
-        // провека пользователя
+        // check user
         $profile = $modx->getObject('modUserProfile', array(
             'sessionid' => $PHPSESSID,
             'blocked' => 0,
         ));
 
-        // получение пользователя (профиль \ гость)
+        // get user (profile / guest)
         if ($profile && $user = $profile->getOne('User')) {
             $modx->user = $user;
             $response = array(
@@ -55,7 +49,7 @@ switch($modx->event->name) {
         $modx->event->_output = $response;
         break;
 
-	// подключение к сокетам на фротэeде\бэкенде
+	// frontend nodejs connection
 	case 'OnLoadWebDocument':
 	case 'OnManagerPageBeforeRender':
 		$modNodejs = $modx->getService('modnodejs', 'modNodejs', $modx->getOption('core_path') .  'components/modnodejs/model/modnodejs/');
