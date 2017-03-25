@@ -1,21 +1,15 @@
 <?php
-
 class modNodejs {
-
 	public $modx;
-
 	function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
-
 		$this->config = array_merge(array(
 			'token' =>  $this->modx->getOption('modnodejs_token', $config, ''),
 			'host' => $this->modx->getOption('modnodejs_host', $config, 'http://' . $_SERVER['HTTP_HOST'] . ':9090'),
 			'assetsUrl' => $this->modx->getOption('assets_url') . 'components/modnodejs/',
 		), $config);
-
 		$this->modx->addPackage('modnodejs', $this->modx->getOption('core_path') .  'components/modnodejs/model/');
 	}
-
 
 	public function initialize($ctx = 'web', $scriptProperties = array()) {
 		$this->config = array_merge($this->config, $scriptProperties);
@@ -24,17 +18,19 @@ class modNodejs {
             $config_js = array(
                 'ctx' => $ctx,
                 'host' => $this->config['host'],
+				'user_id' => $this->modx->user->id,
             );
             switch($ctx) {
 				case 'mgr':
 					$this->modx->controller->addHtml('<script type="text/javascript">modNodejsConfig=' . json_encode($config_js) . ';</script>');
-					$this->modx->controller->addLastJavascript($this->config['assetsUrl'] . 'socket.io.js');
+					$this->modx->controller->addJavascript($this->config['assetsUrl'] . 'socket.io.js');
 					$this->modx->controller->addLastJavascript($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_manager_js'));
 					$this->modx->controller->addCss($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_manager_css'));
 					break;
 				default:
 					$this->modx->regClientStartupScript('<script type="text/javascript">modNodejsConfig=' . json_encode($config_js) . ';</script>', true);
-					$this->modx->regClientScript($this->config['assetsUrl'] . 'socket.io.js');
+					$this->modx->regClientStartupScript($this->config['assetsUrl'] . 'plugins/socket.io.js');
+					$this->modx->regClientStartupScript('<script type="text/javascript">var socket = io(modNodejsConfig.host, {query: "ctx=" + modNodejsConfig.ctx});</script>', true);
 					$this->modx->regClientScript($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_frontend_js'));
 					$this->modx->regClientCss($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_frontend_css'));
 					break;
@@ -44,7 +40,7 @@ class modNodejs {
 	}
 
 	// custom invokeEvent
-    public function invokeEvent($eventName, array $params = array(), $glue = '<br/>') {
+	public function invokeEvent($eventName, array $params = array(), $glue = '<br/>') {
         $response = $this->modx->invokeEvent($eventName, $params);
         if (is_array($response) && count($response) > 1) {
             foreach ($response as $k => $v) {
@@ -53,12 +49,8 @@ class modNodejs {
                 }
             }
         }
-
         $response = count($response) == 1 ? array_shift($response) : $response;
-        return array(
-            'success' => true,
-            'data' => $response,
-        );
+        return $response;
     }
 
 	// send to nodejs (you can send to another server, user 3rd param: https://site.com/nodejs/?myParam=1)

@@ -1,18 +1,5 @@
 Changelog for modNodejs.
 
-1.0.4-beta
-=============
-- translated for english
-
-1.0.3-beta
+1.1.0-beta
 ==============
-- fix $modx->getService('modnodejs');
-- fix "emit" function
-
-1.0.1-beta
-==============
-- rewritten plugin system
-
-1.0.0-beta
-==============
-- first release
+- a lot of updates

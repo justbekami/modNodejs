@@ -7,7 +7,7 @@ $settings = array();
 $tmp = array(
     'token' => array(
         'xtype' => 'textfield',
-        'value' => '<TOKEN>',
+        'value' => md5(uniqid()),
         'area' => 'modnodejs_main',
     ),
 	 'host' => array(

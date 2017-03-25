@@ -9,11 +9,8 @@ $tmp = array(
         'file' => 'modnodejs',
         'description' => '',
         'events' => array(
-            'OnHandleRequest' => array(),
-            'OnNodejsRequest' => array(),
             'OnLoadWebDocument' => array(),
             'OnManagerPageBeforeRender' => array(),
-            'msOnCreateOrder' => array(),
         )
     )
 );
