@@ -23,7 +23,7 @@ class modNodejs {
             switch($ctx) {
 				case 'mgr':
 					$this->modx->controller->addHtml('<script type="text/javascript">modNodejsConfig=' . json_encode($config_js) . ';</script>');
-					$this->modx->controller->addJavascript($this->config['assetsUrl'] . 'socket.io.js');
+					$this->modx->controller->addJavascript($this->config['assetsUrl'] . 'plugins/socket.io.js');
 					$this->modx->controller->addLastJavascript($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_manager_js'));
 					$this->modx->controller->addCss($this->config['assetsUrl'] . $this->modx->getOption('modnodejs_manager_css'));
 					break;
